@@ -206,8 +206,12 @@
         import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // 注意：這裡的 __firebase_config 會由託管平台注入，或手動替換為你的 config 對象
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
+        // 改成這段，先確保搜尋功能正常
+const db = null; 
+const auth = null;
+window.favorites = []; 
+// 暫時註解掉 initAuth()
+// initAuth();
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
