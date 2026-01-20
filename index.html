@@ -207,18 +207,26 @@
 
         // 注意：這裡的 __firebase_config 會由託管平台注入，或手動替換為你的 config 對象
         // 改成這段，先確保搜尋功能正常
-const db = null; 
-const auth = null;
-window.favorites = []; 
-// 暫時註解掉 initAuth()
-// initAuth();
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+// 1. 填入你從 Firebase 拿到的真實 Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBzVY4Vbq73r3xPifAtXgGG5BkscGAlE1A", 
+  authDomain: "test-bus-22411.firebaseapp.com",
+  projectId: "test-bus-22411",
+  storageBucket: "test-bus-22411.firebasestorage.app",
+  messagingSenderId: "31570470813",
+  appId: "1:31570470813:web:827692bffb0788218ff174" 
+};
 
-        window.db = db;
-        window.appId = appId;
-        window.favorites = [];
+// 2. 統一初始化，不要重複宣告
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const appId = 'default-app-id';
+
+// 3. 綁定到全域供後續功能使用
+window.db = db;
+window.appId = appId;
+window.favorites = [];
 
         onAuthStateChanged(auth, (u) => {
             if (u) {
