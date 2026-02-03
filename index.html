@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>香仔交通報時器 V7.7.0</title>
+    <title>香仔交通報時器 V7.7.1</title>
     
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkhLRVtBIiwgInNob3J0X25hbWUiOiAiSEtFVEEiLCAic3RhcnRfdXJsIjogIi4iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiI2Y4ZmFmYyIsICJ0aGVtZV9jb2xvciI6ICIjZWY0NDQ0In0=">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -120,6 +120,13 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+        
+        /* Fix iPhone Safari Input Zoom */
+        @media screen and (max-width: 768px) {
+            input, textarea {
+                font-size: 16px !important;
+            }
+        }
     </style>
 </head>
 <body class="pb-24">
@@ -131,7 +138,7 @@
             </div>
             <div>
                 <h1 class="text-xl font-black tracking-tight text-gray-800 leading-none">HK<span class="text-red-500">.ETA</span></h1>
-                <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mt-1">V7.7.0 STABLE</p>
+                <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mt-1">V7.7.1 STABLE</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
@@ -172,13 +179,14 @@
             <div id="favoritesList" class="flex gap-4 overflow-x-auto pb-6 no-scrollbar snap-x relative min-h-[140px]"></div>
         </div>
 
+        <!-- 重點修復：搜尋欄位佈局 -->
         <div id="busSearchSection" class="mb-12">
-            <div class="glass rounded-[2.5rem] p-2 shadow-xl border border-white/60 flex items-center gap-2 pr-4 pl-6 h-20">
-                <input id="routeInput" type="text" placeholder="輸入路線 (e.g. 290, 98D)" 
+            <div class="glass rounded-[2.5rem] p-3 shadow-xl border border-white/60 flex items-center gap-3 h-20 box-border">
+                <input id="routeInput" type="text" placeholder="輸入路線 (e.g. 290)" 
                        onkeypress="if(event.key === 'Enter') searchRoute()" 
-                       class="flex-1 bg-transparent font-black text-2xl text-gray-700 outline-none placeholder:text-gray-300">
-                <button onclick="searchRoute()" class="bg-gradient-to-br from-red-500 to-rose-600 text-white w-14 h-14 rounded-[1.5rem] flex items-center justify-center shadow-lg active:scale-90 transition-all flex-shrink-0">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                       class="flex-1 min-w-0 bg-transparent font-black text-xl text-gray-700 outline-none placeholder:text-gray-300 px-3">
+                <button onclick="searchRoute()" class="flex-shrink-0 bg-gradient-to-br from-red-500 to-rose-600 text-white w-12 h-12 rounded-[1.2rem] flex items-center justify-center shadow-lg active:scale-90 transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
             </div>
         </div>
@@ -227,7 +235,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, writeBatch, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBzVY4Vbq73r3xPifAtXgGG5BkscGAlE1A", 
